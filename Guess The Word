@@ -1,0 +1,73 @@
+import java.util.Random;
+import java.util.Scanner;
+
+public class GuessTheWord {
+    public static void main(String[] args) {
+        String[] words = {"apple", "banana", "cherry", "orange", "grape", "melon", "strawberry", "blueberry"};
+        Random random = new Random();
+        String wordToGuess = words[random.nextInt(words.length)];
+        int maxAttempts = 6;
+        char[] guessedLetters = new char[wordToGuess.length()];
+        int attempts = 0;
+
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Welcome to Guess the Word!");
+        System.out.println("You have " + maxAttempts + " attempts to guess the word.");
+        System.out.println("The word has " + wordToGuess.length() + " letters.");
+        
+        while (attempts < maxAttempts) {
+            System.out.print("Word: ");
+            displayWord(guessedLetters, wordToGuess);
+
+            System.out.print("Enter a letter: ");
+            char guess = scanner.next().charAt(0);
+
+            if (isLetterInWord(guess, wordToGuess, guessedLetters)) {
+                System.out.println("Good guess!");
+            } else {
+                System.out.println("Sorry, that letter is not in the word.");
+                attempts++;
+            }
+
+            if (isWordGuessed(guessedLetters)) {
+                System.out.println("Congratulations! You guessed the word: " + wordToGuess);
+                break;
+            }
+        }
+
+        if (attempts >= maxAttempts) {
+            System.out.println("You ran out of attempts. The word was: " + wordToGuess);
+        }
+
+        scanner.close();
+    }
+
+    static boolean isLetterInWord(char letter, String word, char[] guessedLetters) {
+        boolean found = false;
+        for (int i = 0; i < word.length(); i++) {
+            if (word.charAt(i) == letter) {
+                guessedLetters[i] = letter;
+                found = true;
+            }
+        }
+        return found;
+    }
+
+    static boolean isWordGuessed(char[] guessedLetters) {
+        for (char c : guessedLetters) {
+            if (c == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    static void displayWord(char[] guessedLetters, String word) {
+        for (int i = 0; i < word.length(); i++) {
+            char letter = guessedLetters[i] != 0 ? guessedLetters[i] : '_';
+            System.out.print(letter + " ");
+        }
+        System.out.println();
+    }
+}
