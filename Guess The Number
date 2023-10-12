@@ -1,0 +1,40 @@
+import java.util.Random;
+import java.util.Scanner;
+
+public class GuessTheNumber {
+    public static void main(String[] args) {
+        while (true) {
+            Random random = new Random();
+            int num = random.nextInt(50) + 1;
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Enter a number between 1 and 50:");
+            int guess, chances = 5;
+
+            while (chances > 0) {
+                guess = scanner.nextInt();
+                if (num == guess) {
+                    System.out.println("You won!");
+                    break;
+                } else if (num < guess) {
+                    System.out.println("Your guess is too high. Try again:");
+                } else {
+                    System.out.println("Your guess is too low. Try again:");
+                }
+                chances--;
+                if (chances > 0) {
+                    System.out.println("Chances left: " + chances);
+                }
+            }
+
+            if (chances == 0) {
+                System.out.println("You ran out of chances. The number was " + num);
+            }
+
+            System.out.println("Do you want to play again? (yes/no)");
+            String playAgain = scanner.next().toLowerCase();
+            if (!playAgain.equals("yes")) {
+                break;
+            }
+        }
+    }
+}
